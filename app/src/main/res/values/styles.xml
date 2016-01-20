@@ -1,0 +1,13 @@
+<resources>
+
+    <!-- 去掉ActionBar，欲练此功，必先自宫 -->
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- 状态栏颜色 -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!-- toolbar（actionbar）背景颜色 -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme"></style>
+
+</resources>

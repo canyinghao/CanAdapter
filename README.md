@@ -11,6 +11,8 @@
 ## 使用方式 
 **1. CanAdapter介绍**  
 ListView使用CanAdapter，RecyclerView使用CanRVAdapter，主要重写它们的三个方法，构造函数、setView、setItemListener这三个。setItemListener的目的是让事件可以在activity中处理，方便adapter的重用。使用adapter.setOnItemListener就可以在activity中处理事件，总共5个事件，onItemChildClick、onItemChildLongClick、onItemChildCheckedChanged、onRVItemClick、onRVItemLongClick。
+
+
 **2. ListView 使用CanAdapter**  
 ```JAVA
 public class ListViewFragment extends Fragment {

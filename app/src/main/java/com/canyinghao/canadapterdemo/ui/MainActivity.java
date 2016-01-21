@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.viewPager)
     ViewPager viewPager;
 
-    Adapter  adapter;
+    Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         String[] strs = getResources().getStringArray(R.array.array_list);
 
 
-        ListViewFragment  listViewFragment = new ListViewFragment();
+        ListViewFragment listViewFragment = new ListViewFragment();
         RVListFragment rvListFragment = new RVListFragment();
         RVGridFragment rvGridFragment = new RVGridFragment();
 

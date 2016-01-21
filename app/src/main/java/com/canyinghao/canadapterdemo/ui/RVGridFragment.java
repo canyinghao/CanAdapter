@@ -19,7 +19,7 @@ import com.canyinghao.canadapterdemo.model.MainBean;
 /**
  * Created by yangjian on 16/1/21.
  */
-public class RVGridFragment extends Fragment{
+public class RVGridFragment extends Fragment {
 
     RecyclerView recyclerView;
 
@@ -28,18 +28,18 @@ public class RVGridFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        recyclerView =   new RecyclerView(getContext());
+        recyclerView = new RecyclerView(getContext());
 
-        GridLayoutManager  mLayoutManager = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
 
-        final CanRVAdapter adapter =    new CanRVAdapter<MainBean>(recyclerView, R.layout.item_main){
+        final CanRVAdapter adapter = new CanRVAdapter<MainBean>(recyclerView, R.layout.item_main) {
 
 
             @Override
             protected void setView(CanHolderHelper helper, int position, MainBean model) {
-                helper.setText(R.id.tv_title,model.title);
-                helper.setText(R.id.tv_content,model.content);
+                helper.setText(R.id.tv_title, model.title);
+                helper.setText(R.id.tv_content, model.content);
 
             }
 
@@ -59,7 +59,7 @@ public class RVGridFragment extends Fragment{
 
             public void onItemChildClick(View view, int position) {
 
-                MainBean  bean = (MainBean) adapter.getItem(position);
+                MainBean bean = (MainBean) adapter.getItem(position);
                 switch (view.getId()) {
 
 
@@ -84,9 +84,6 @@ public class RVGridFragment extends Fragment{
 
         return recyclerView;
     }
-
-
-
 
 
 }

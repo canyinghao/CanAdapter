@@ -19,24 +19,23 @@ import com.canyinghao.canadapterdemo.model.MainBean;
  * Created by yangjian on 16/1/21.
  */
 public class ListViewFragment extends Fragment {
-    ListView  listView;
+    ListView listView;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-         listView =   new ListView(getContext());
+        listView = new ListView(getContext());
 
 
-
-        final CanAdapter adapter =    new CanAdapter<MainBean>(getContext(), R.layout.item_main){
+        final CanAdapter adapter = new CanAdapter<MainBean>(getContext(), R.layout.item_main) {
 
 
             @Override
             protected void setView(CanHolderHelper helper, int position, MainBean model) {
-                helper.setText(R.id.tv_title,model.title);
-                helper.setText(R.id.tv_content,model.content);
+                helper.setText(R.id.tv_title, model.title);
+                helper.setText(R.id.tv_content, model.content);
 
             }
 
@@ -56,7 +55,7 @@ public class ListViewFragment extends Fragment {
 
             public void onItemChildClick(View view, int position) {
 
-                MainBean  bean = (MainBean) adapter.getItem(position);
+                MainBean bean = (MainBean) adapter.getItem(position);
                 switch (view.getId()) {
 
 
@@ -81,9 +80,6 @@ public class ListViewFragment extends Fragment {
 
         return listView;
     }
-
-
-
 
 
 }

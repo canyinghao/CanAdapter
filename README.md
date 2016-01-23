@@ -9,7 +9,7 @@
 
 ##添加依赖
 ```JAVA
-compile 'com.canyinghao:canadapter:1.0.1'
+compile 'com.canyinghao:can-adapter:1.0.1'
 ```
 
 ## 使用方式 

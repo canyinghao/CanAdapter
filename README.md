@@ -7,6 +7,10 @@
 
 ![](./pic/CanAdapter.gif)  
 
+##添加依赖
+```JAVA
+compile 'com.canyinghao:can-adapter:1.0.1'
+```
 
 ## 使用方式 
 **1. CanAdapter介绍**  

@@ -146,7 +146,7 @@ public class CanHolderHelper  implements View.OnClickListener, View.OnLongClickL
      * @param viewId
      */
     public void setItemChildLongClickListener(@IdRes int viewId) {
-        getView(viewId).setOnClickListener(this);
+        getView(viewId).setOnLongClickListener(this);
     }
 
     /**

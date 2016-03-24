@@ -2,6 +2,7 @@ package com.canyinghao.canadapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,20 +27,27 @@ import java.util.List;
  */
 public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolder> {
 
-    protected  int mItemLayoutId;
+    protected int mItemLayoutId;
     protected Context mContext;
     protected List<T> mList;
     protected CanOnItemListener mOnItemListener;
 
     protected RecyclerView mRecyclerView;
-//    item项等分个数
-    protected  int ratio ;
+    //    item项等分个数
+    protected int ratio;
 
-    public CanRVAdapter(RecyclerView mRecyclerView){
 
+    private final TypedValue mTypedValue = new TypedValue();
+    protected int mBackground;
+
+    public CanRVAdapter(RecyclerView mRecyclerView) {
+        super();
         this.mContext = mRecyclerView.getContext();
         this.mRecyclerView = mRecyclerView;
         this.mList = new ArrayList<>();
+
+        mContext.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
+        mBackground = mTypedValue.resourceId;
     }
 
 
@@ -50,7 +58,8 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     }
 
     public CanRVAdapter(RecyclerView mRecyclerView, int itemLayoutId, List<T> mList) {
-        this(mRecyclerView,itemLayoutId);
+
+        this(mRecyclerView, itemLayoutId);
         if (mList != null && !mList.isEmpty()) {
             this.mList.addAll(mList);
         }
@@ -221,20 +230,19 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     }
 
 
-
     @Override
     public CanRViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        CanRViewHolder holder =    new CanRViewHolder(mRecyclerView, LayoutInflater.from(mContext).inflate(mItemLayoutId, parent, false),ratio);
-
-
-        return  holder;
+        View itemView = LayoutInflater.from(mContext).inflate(mItemLayoutId, parent, false);
+        itemView.setBackgroundResource(mBackground);
+        CanRViewHolder holder = new CanRViewHolder(mRecyclerView, itemView, ratio);
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(CanRViewHolder viewHolder, int position) {
         viewHolder.setOnItemListener(mOnItemListener);
-        CanHolderHelper mHolderHelper =  viewHolder.getCanHolderHelper();
+        CanHolderHelper mHolderHelper = viewHolder.getCanHolderHelper();
 
         mHolderHelper.setPosition(position);
         mHolderHelper.setOnItemListener(mOnItemListener);
@@ -257,49 +265,45 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     protected abstract void setItemListener(CanHolderHelper viewHelper);
 
 
-
 }
 
-class CanRViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+class CanRViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
     protected Context mContext;
     protected CanHolderHelper mHolderHelper;
     protected RecyclerView mRecyclerView;
-    protected  CanOnItemListener mOnItemListener;
+    protected CanOnItemListener mOnItemListener;
 
 
-    public CanRViewHolder(RecyclerView recyclerView, View itemView,int ratio) {
+    public CanRViewHolder(RecyclerView recyclerView, View itemView, int ratio) {
         super(itemView);
 
-        if(ratio>0){
+        if (ratio > 0) {
 
             ViewGroup.LayoutParams lp = itemView.getLayoutParams() == null ? new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT) : itemView.getLayoutParams();
             if (recyclerView.getLayoutManager().canScrollHorizontally()) {
-                lp.width =  (recyclerView.getWidth()/ratio - recyclerView.getPaddingLeft() - recyclerView.getPaddingRight());
+                lp.width = (recyclerView.getWidth() / ratio - recyclerView.getPaddingLeft() - recyclerView.getPaddingRight());
             } else {
-                lp.height = recyclerView.getHeight()/ratio - recyclerView.getPaddingTop() - recyclerView.getPaddingBottom();
+                lp.height = recyclerView.getHeight() / ratio - recyclerView.getPaddingTop() - recyclerView.getPaddingBottom();
             }
 
             itemView.setLayoutParams(lp);
         }
 
 
-
-
-
-
         this.mRecyclerView = recyclerView;
-        this. mContext = mRecyclerView.getContext();
-        this.mHolderHelper =   CanHolderHelper.holderHelperByRecyclerView(itemView);
+        this.mContext = mRecyclerView.getContext();
+        this.mHolderHelper = CanHolderHelper.holderHelperByRecyclerView(itemView);
+
         itemView.setOnClickListener(this);
         itemView.setOnLongClickListener(this);
     }
 
-    public CanHolderHelper getCanHolderHelper(){
-        return  mHolderHelper;
+    public CanHolderHelper getCanHolderHelper() {
+        return mHolderHelper;
     }
 
-    public void setOnItemListener(CanOnItemListener onItemListener){
+    public void setOnItemListener(CanOnItemListener onItemListener) {
 
         this.mOnItemListener = onItemListener;
 
@@ -308,8 +312,8 @@ class CanRViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
     @Override
     public void onClick(View view) {
 
-        if (mOnItemListener!=null){
-            mOnItemListener.onRVItemClick(mRecyclerView,view,getAdapterPosition());
+        if (mOnItemListener != null) {
+            mOnItemListener.onRVItemClick(mRecyclerView, view, getAdapterPosition());
         }
 
     }
@@ -317,8 +321,8 @@ class CanRViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
     @Override
     public boolean onLongClick(View view) {
 
-        if (mOnItemListener!=null){
-            return  mOnItemListener.onRVItemLongClick(mRecyclerView, view, getAdapterPosition());
+        if (mOnItemListener != null) {
+            return mOnItemListener.onRVItemLongClick(mRecyclerView, view, getAdapterPosition());
         }
         return false;
     }

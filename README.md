@@ -2,14 +2,13 @@
 一个继承BaseAdapter和RecyclerView.Adapter的库，将Adapter封装成相同的方法，方便使用。
 
 
-<!--此项目参考了[BGAAdapter-Android](https://github.com/bingoogolapple/BGAAdapter-Android)。-->
 
 
 ![](./pic/CanAdapter.gif)  
 
 ##添加依赖
 ```JAVA
-compile 'com.canyinghao:can-adapter:1.0.3'
+compile 'com.canyinghao:canadapter:1.0.4'
 ```
 
 ## 使用方式 
@@ -156,7 +155,9 @@ public class RVListFragment extends Fragment {
 
 }
 ```
-
+**4. 新添加可供RecyclerView使用的CanErvAdapter**  
+CanErvAdapter有分组功能，可展开或收起分组，可只允许展开一个，可展开全部不允许收起。LayoutManager提供子项每行的个数，LinearLayoutManager每行一个，GridLayoutManager设置的spanCount为多少就是多少。  
+限制以及问题：group可使用的区域的宽度与子项每一项的宽度相同。也就是说，当spanCount为3时，group项的宽度只有屏幕宽度的三分之一。这需要特别注意。
 
 
 

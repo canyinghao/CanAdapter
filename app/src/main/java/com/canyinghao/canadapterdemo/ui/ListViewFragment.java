@@ -16,7 +16,7 @@ import com.canyinghao.canadapterdemo.R;
 import com.canyinghao.canadapterdemo.model.MainBean;
 
 /**
- * Created by yangjian on 16/1/21.
+ * Created by canyinghao on 16/1/21.
  */
 public class ListViewFragment extends Fragment {
     ListView listView;

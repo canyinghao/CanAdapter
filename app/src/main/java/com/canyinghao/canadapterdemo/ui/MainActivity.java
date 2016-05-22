@@ -18,7 +18,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by yangjian on 16/1/21.
+ * Created by canyinghao on 16/1/21.
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -60,11 +60,13 @@ public class MainActivity extends AppCompatActivity {
         ListViewFragment listViewFragment = new ListViewFragment();
         RVListFragment rvListFragment = new RVListFragment();
         RVGridFragment rvGridFragment = new RVGridFragment();
+        ERVGridFragment ervGridFragment = new ERVGridFragment();
 
 
         adapter.addFragment(listViewFragment, strs[0]);
         adapter.addFragment(rvListFragment, strs[1]);
         adapter.addFragment(rvGridFragment, strs[2]);
+        adapter.addFragment(ervGridFragment, strs[3]);
 
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(3);

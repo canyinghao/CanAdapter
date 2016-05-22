@@ -16,9 +16,7 @@ import java.util.List;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
  * http://www.apache.org/licenses/LICENSE-2.0
- *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -155,7 +153,7 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
      */
     public void removeItem(int position) {
         mList.remove(position);
-        notifyDataSetChanged();
+        notifyItemRangeRemoved(position, 1);
     }
 
     /**
@@ -164,8 +162,10 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
      * @param model
      */
     public void removeItem(T model) {
-        mList.remove(model);
-        notifyDataSetChanged();
+
+        int index = mList.indexOf(model);
+        removeItem(index);
+
     }
 
     /**
@@ -176,7 +176,8 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
      */
     public void addItem(int position, T model) {
         mList.add(position, model);
-        notifyDataSetChanged();
+        notifyItemInserted(position);
+
     }
 
     /**
@@ -205,7 +206,8 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
      */
     public void setItem(int location, T newModel) {
         mList.set(location, newModel);
-        notifyDataSetChanged();
+
+        notifyItemChanged(location);
     }
 
     /**
@@ -226,7 +228,7 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
      */
     public void moveItem(int fromPosition, int toPosition) {
         Collections.swap(mList, fromPosition, toPosition);
-        notifyDataSetChanged();
+        notifyItemMoved(fromPosition,toPosition);
     }
 
 
@@ -260,70 +262,11 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     }
 
 
-    protected abstract void setView(CanHolderHelper viewHelper, int position, T model);
+    protected abstract void setView(CanHolderHelper helper, int position, T bean);
 
-    protected abstract void setItemListener(CanHolderHelper viewHelper);
+    protected abstract void setItemListener(CanHolderHelper helper);
 
 
 }
 
-class CanRViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-    protected Context mContext;
-    protected CanHolderHelper mHolderHelper;
-    protected RecyclerView mRecyclerView;
-    protected CanOnItemListener mOnItemListener;
-
-
-    public CanRViewHolder(RecyclerView recyclerView, View itemView, int ratio) {
-        super(itemView);
-
-        if (ratio > 0) {
-
-            ViewGroup.LayoutParams lp = itemView.getLayoutParams() == null ? new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT) : itemView.getLayoutParams();
-            if (recyclerView.getLayoutManager().canScrollHorizontally()) {
-                lp.width = (recyclerView.getWidth() / ratio - recyclerView.getPaddingLeft() - recyclerView.getPaddingRight());
-            } else {
-                lp.height = recyclerView.getHeight() / ratio - recyclerView.getPaddingTop() - recyclerView.getPaddingBottom();
-            }
-
-            itemView.setLayoutParams(lp);
-        }
-
-
-        this.mRecyclerView = recyclerView;
-        this.mContext = mRecyclerView.getContext();
-        this.mHolderHelper = CanHolderHelper.holderHelperByRecyclerView(itemView);
-
-        itemView.setOnClickListener(this);
-        itemView.setOnLongClickListener(this);
-    }
-
-    public CanHolderHelper getCanHolderHelper() {
-        return mHolderHelper;
-    }
-
-    public void setOnItemListener(CanOnItemListener onItemListener) {
-
-        this.mOnItemListener = onItemListener;
-
-    }
-
-    @Override
-    public void onClick(View view) {
-
-        if (mOnItemListener != null) {
-            mOnItemListener.onRVItemClick(mRecyclerView, view, getAdapterPosition());
-        }
-
-    }
-
-    @Override
-    public boolean onLongClick(View view) {
-
-        if (mOnItemListener != null) {
-            return mOnItemListener.onRVItemLongClick(mRecyclerView, view, getAdapterPosition());
-        }
-        return false;
-    }
-}

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by yangjian on 16/1/21.
+ * Created by canyinghao on 16/1/21.
  */
 public class MainBean {
 
@@ -12,6 +12,15 @@ public class MainBean {
     public String title ;
     public String content ;
 
+    public boolean isExp;
+
+
+    public MainBean() {
+    }
+
+    public MainBean(String title) {
+        this.title = title;
+    }
 
     public static List<MainBean> getList(){
 

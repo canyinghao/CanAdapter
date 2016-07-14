@@ -236,9 +236,8 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     public CanRViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(mContext).inflate(mItemLayoutId, parent, false);
-        itemView.setBackgroundResource(mBackground);
-        CanRViewHolder holder = new CanRViewHolder(mRecyclerView, itemView, ratio);
-        return holder;
+
+        return new CanRViewHolder(mRecyclerView, itemView, ratio);
     }
 
     @Override

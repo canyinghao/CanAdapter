@@ -14,7 +14,7 @@ import com.canyinghao.canadapterdemo.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -23,11 +23,11 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.tabLayout)
+    @BindView(R.id.tabLayout)
     TabLayout tabLayout;
-    @Bind(R.id.viewPager)
+    @BindView(R.id.viewPager)
     ViewPager viewPager;
 
     Adapter adapter;

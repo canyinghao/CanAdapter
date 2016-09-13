@@ -8,7 +8,7 @@
 
 ##添加依赖
 ```JAVA
-compile 'com.canyinghao:canadapter:1.0.5'
+compile 'com.canyinghao:canadapter:1.0.6'
 ```
 
 ## 使用方式 

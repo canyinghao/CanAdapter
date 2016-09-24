@@ -17,7 +17,7 @@ import android.view.ViewGroup;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class CanRViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+public class CanRViewHolder extends RecyclerView.ViewHolder  {
 
     protected Context mContext;
     protected CanHolderHelper mHolderHelper;
@@ -51,9 +51,10 @@ public class CanRViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         this.mContext = mRecyclerView.getContext();
         this.mHolderHelper = CanHolderHelper.holderHelperByRecyclerView(itemView);
 
-        itemView.setOnClickListener(this);
-        itemView.setOnLongClickListener(this);
+
     }
+
+
 
     public CanRViewHolder setViewType(int viewType) {
         this.viewType = viewType;
@@ -75,21 +76,5 @@ public class CanRViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     }
 
-    @Override
-    public void onClick(View view) {
 
-        if (mOnItemListener != null) {
-            mOnItemListener.onRVItemClick(mRecyclerView, view, getAdapterPosition());
-        }
-
-    }
-
-    @Override
-    public boolean onLongClick(View view) {
-
-        if (mOnItemListener != null) {
-            return mOnItemListener.onRVItemLongClick(mRecyclerView, view, getAdapterPosition());
-        }
-        return false;
-    }
 }

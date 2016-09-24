@@ -2,7 +2,6 @@ package com.canyinghao.canadapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +34,7 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     protected int ratio;
 
 
-    private final TypedValue mTypedValue = new TypedValue();
-    protected int mBackground;
+
 
     public CanRVAdapter(RecyclerView mRecyclerView) {
         super();
@@ -44,8 +42,7 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
         this.mRecyclerView = mRecyclerView;
         this.mList = new ArrayList<>();
 
-        mContext.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
-        mBackground = mTypedValue.resourceId;
+
     }
 
 
@@ -259,6 +256,9 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     public void setOnItemListener(CanOnItemListener onItemListener) {
         mOnItemListener = onItemListener;
     }
+
+
+
 
 
     protected abstract void setView(CanHolderHelper helper, int position, T bean);

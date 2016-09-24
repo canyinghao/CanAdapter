@@ -4,10 +4,11 @@
 
     <array name="array_list">
 
-        <item>listview</item>
+        <item>ListView</item>
         <item>rvlist</item>
         <item>rvgrid</item>
         <item>ervgrid</item>
+        <item>rvhfgrid</item>
 
 
 

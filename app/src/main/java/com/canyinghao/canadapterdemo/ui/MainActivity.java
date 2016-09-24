@@ -61,12 +61,14 @@ public class MainActivity extends AppCompatActivity {
         RVListFragment rvListFragment = new RVListFragment();
         RVGridFragment rvGridFragment = new RVGridFragment();
         ERVGridFragment ervGridFragment = new ERVGridFragment();
+        RVHFGridFragment rvhfGridFragment = new RVHFGridFragment();
 
 
         adapter.addFragment(listViewFragment, strs[0]);
         adapter.addFragment(rvListFragment, strs[1]);
         adapter.addFragment(rvGridFragment, strs[2]);
         adapter.addFragment(ervGridFragment, strs[3]);
+        adapter.addFragment(rvhfGridFragment, strs[4]);
 
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(3);

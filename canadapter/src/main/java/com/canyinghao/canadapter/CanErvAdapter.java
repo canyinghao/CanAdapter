@@ -431,6 +431,10 @@ public abstract class CanErvAdapter<G, C> extends RecyclerView.Adapter<CanRViewH
 
     }
 
+
+
+
+
     @Override
     public CanRViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 

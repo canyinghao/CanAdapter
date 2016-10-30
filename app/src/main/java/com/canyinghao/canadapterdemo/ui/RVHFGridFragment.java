@@ -35,8 +35,8 @@ public class RVHFGridFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         recyclerView = new RecyclerView(getContext());
-
-        GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 3);
+        recyclerView.setHasFixedSize(true);
+        GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 4);
 
 
 
@@ -104,15 +104,14 @@ public class RVHFGridFragment extends Fragment {
         List<MainBean> gList = new ArrayList<>();
         List<List<MainBean>>  cList = new ArrayList<>();
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 2; i++) {
 
             gList.add(new MainBean("2016.05.0"+(i+1)));
-//
-//
+
             List<MainBean> childeList =new ArrayList<>();
 
 
-            for (int j = 0; j < 8; j++) {
+            for (int j = 0; j < 2000; j++) {
                 childeList.add(new MainBean("title"+j));
             }
 

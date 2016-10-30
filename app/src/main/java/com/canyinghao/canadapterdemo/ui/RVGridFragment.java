@@ -16,6 +16,9 @@ import com.canyinghao.canadapterdemo.App;
 import com.canyinghao.canadapterdemo.R;
 import com.canyinghao.canadapterdemo.model.MainBean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by canyinghao on 16/1/21.
  */
@@ -30,8 +33,7 @@ public class RVGridFragment extends Fragment {
 
         recyclerView = new RecyclerView(getContext());
 
-        GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
-        recyclerView.setLayoutManager(mLayoutManager);
+
 
         final CanRVAdapter adapter = new CanRVAdapter<MainBean>(recyclerView, R.layout.item_main) {
 
@@ -51,6 +53,14 @@ public class RVGridFragment extends Fragment {
 
             }
         };
+
+
+        GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 4);
+
+
+        recyclerView.setLayoutManager(mLayoutManager);
+
+
 
         recyclerView.setAdapter(adapter);
 
@@ -79,7 +89,13 @@ public class RVGridFragment extends Fragment {
         });
 
 
-        adapter.setList(MainBean.getList());
+        List<MainBean> list = new ArrayList<>();
+
+        for (int j = 0; j < 100; j++) {
+            list.add(new MainBean("title"+j));
+        }
+
+        adapter.setList(list);
 
 
         return recyclerView;

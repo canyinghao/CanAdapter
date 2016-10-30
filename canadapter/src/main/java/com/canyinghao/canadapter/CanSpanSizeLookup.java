@@ -17,18 +17,36 @@ import android.support.v7.widget.GridLayoutManager;
  */
 public class CanSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
 
-  private final CanRVHFAdapter adapter;
-  private final int spanCount;
+    private final CanRVHFAdapter adapter;
+    private final int spanCount;
 
-  public CanSpanSizeLookup(CanRVHFAdapter adapter, int spanCount) {
-    this.adapter = adapter;
-    this.spanCount = spanCount;
-  }
+    public CanSpanSizeLookup(CanRVHFAdapter adapter, int spanCount) {
+        this.adapter = adapter;
+        this.spanCount = spanCount;
+    }
 
-  @Override public int getSpanSize(int position) {
-    boolean isRow =adapter.isHeaderPosition(position)
-            || adapter.isFooterPosition(position)
-            ||adapter.isGroupPosition(position);
-    return isRow ? spanCount : 1;
-  }
+    @Override
+    public void invalidateSpanIndexCache() {
+        super.invalidateSpanIndexCache();
+    }
+
+    @Override
+    public int getSpanSize(int position) {
+
+        boolean isRow = adapter.isHeaderPosition(position)
+                || adapter.isFooterPosition(position)
+                || adapter.isGroupPosition(position);
+        return isRow ? spanCount : 1;
+
+
+    }
+
+
+    @Override
+    public int getSpanIndex(int position, int spanCount) {
+
+        return  position % spanCount;
+    }
+
+
 }

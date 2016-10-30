@@ -9,8 +9,8 @@ import java.util.List;
 public class MainBean {
 
 
-    public String title ;
-    public String content ;
+    public String title  ="title";
+    public String content  = "content";
 
     public boolean isExp;
 

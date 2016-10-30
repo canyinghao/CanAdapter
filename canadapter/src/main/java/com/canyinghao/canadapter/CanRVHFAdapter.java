@@ -363,6 +363,26 @@ public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<Ca
     }
 
 
+
+    public int getSpanIndex(int position, int spanCount){
+
+        ErvType ervType = ervTypes.get(position);
+
+        if(ervType==null){
+            ervType = getItemErvType(position);
+            ervTypes.put(position,ervType);
+        }
+
+        if(ervType.type==TYPE_CHILD){
+
+            return ervType.position%spanCount;
+        }
+
+        return  0;
+
+    }
+
+
     protected abstract void setChildView(CanHolderHelper helper, int group, int position, C bean);
 
     protected abstract void setGroupView(CanHolderHelper helper, int group, int position, G bean);

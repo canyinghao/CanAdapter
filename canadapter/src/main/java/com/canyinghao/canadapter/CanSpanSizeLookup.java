@@ -45,7 +45,8 @@ public class CanSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
     @Override
     public int getSpanIndex(int position, int spanCount) {
 
-        return  position % spanCount;
+
+        return adapter.getSpanIndex(position,spanCount);
     }
 
 

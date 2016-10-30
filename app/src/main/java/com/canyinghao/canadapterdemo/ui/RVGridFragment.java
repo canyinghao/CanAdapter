@@ -57,9 +57,7 @@ public class RVGridFragment extends Fragment {
 
         GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 4);
 
-
         recyclerView.setLayoutManager(mLayoutManager);
-
 
 
         recyclerView.setAdapter(adapter);

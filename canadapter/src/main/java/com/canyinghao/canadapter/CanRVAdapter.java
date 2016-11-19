@@ -34,8 +34,6 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     protected int ratio;
 
 
-
-
     public CanRVAdapter(RecyclerView mRecyclerView) {
         super();
         this.mContext = mRecyclerView.getContext();
@@ -68,7 +66,17 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
 
 
     public T getItem(int position) {
-        return mList.get(position);
+        if (isSafePosition(position)) {
+            return mList.get(position);
+        }
+        return null;
+    }
+
+    private boolean isSafePosition(int position) {
+
+
+        return mList != null && !mList.isEmpty() && position >= 0 && position < mList.size();
+
     }
 
     @Override
@@ -88,7 +96,7 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     /**
      * 获取数据
      *
-     * @return
+     * @return List
      */
     public List<T> getList() {
         return mList;
@@ -97,7 +105,7 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     /**
      * 添加到头部
      *
-     * @param datas
+     * @param datas List
      */
     public void addNewList(List<T> datas) {
         if (datas != null && !datas.isEmpty()) {
@@ -109,7 +117,7 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     /**
      * 添加到末尾
      *
-     * @param datas
+     * @param datas List
      */
     public void addMoreList(List<T> datas) {
         if (datas != null && !datas.isEmpty()) {
@@ -122,7 +130,7 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     /**
      * 设置数据
      *
-     * @param datas
+     * @param datas List
      */
     public void setList(List<T> datas) {
 
@@ -146,41 +154,52 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     /**
      * 删除指定索引数据条目
      *
-     * @param position
+     * @param position position
      */
     public void removeItem(int position) {
-        mList.remove(position);
-        notifyItemRangeRemoved(position, 1);
+        if (isSafePosition(position)) {
+            mList.remove(position);
+            notifyItemRangeRemoved(position, 1);
+        }
+
     }
 
     /**
      * 删除指定数据条目
      *
-     * @param model
+     * @param model T
      */
     public void removeItem(T model) {
 
-        int index = mList.indexOf(model);
-        removeItem(index);
+        if (mList != null && mList.contains(model)) {
+            int index = mList.indexOf(model);
+            if (isSafePosition(index)) {
+                removeItem(index);
+            }
+        }
+
 
     }
 
     /**
      * 在指定位置添加数据条目
      *
-     * @param position
-     * @param model
+     * @param position int
+     * @param model    T
      */
     public void addItem(int position, T model) {
-        mList.add(position, model);
-        notifyItemInserted(position);
+        if (isSafePosition(position)) {
+            mList.add(position, model);
+            notifyItemInserted(position);
+        }
+
 
     }
 
     /**
      * 在集合头部添加数据条目
      *
-     * @param model
+     * @param model T
      */
     public void addFirstItem(T model) {
         addItem(0, model);
@@ -189,7 +208,7 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     /**
      * 在集合末尾添加数据条目
      *
-     * @param model
+     * @param model T
      */
     public void addLastItem(T model) {
         addItem(mList.size(), model);
@@ -198,20 +217,24 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     /**
      * 替换指定索引的数据条目
      *
-     * @param location
-     * @param newModel
+     * @param location int
+     * @param newModel T
      */
     public void setItem(int location, T newModel) {
-        mList.set(location, newModel);
 
-        notifyItemChanged(location);
+        if (isSafePosition(location)) {
+            mList.set(location, newModel);
+
+            notifyItemChanged(location);
+        }
+
     }
 
     /**
      * 替换指定数据条目
      *
-     * @param oldModel
-     * @param newModel
+     * @param oldModel T
+     * @param newModel T
      */
     public void setItem(T oldModel, T newModel) {
         setItem(mList.indexOf(oldModel), newModel);
@@ -220,12 +243,16 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     /**
      * 交换两个数据条目的位置
      *
-     * @param fromPosition
-     * @param toPosition
+     * @param fromPosition int
+     * @param toPosition   int
      */
     public void moveItem(int fromPosition, int toPosition) {
-        Collections.swap(mList, fromPosition, toPosition);
-        notifyItemMoved(fromPosition,toPosition);
+
+        if (isSafePosition(fromPosition) && isSafePosition(toPosition)) {
+            Collections.swap(mList, fromPosition, toPosition);
+            notifyItemMoved(fromPosition, toPosition);
+        }
+
     }
 
 
@@ -251,14 +278,11 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     /**
      * 设置item中的子控件点击事件监听器
      *
-     * @param onItemListener
+     * @param onItemListener CanOnItemListener
      */
     public void setOnItemListener(CanOnItemListener onItemListener) {
         mOnItemListener = onItemListener;
     }
-
-
-
 
 
     protected abstract void setView(CanHolderHelper helper, int position, T bean);

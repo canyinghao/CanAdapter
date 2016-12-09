@@ -75,7 +75,7 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
     private boolean isSafePosition(int position) {
 
 
-        return mList != null && !mList.isEmpty() && position >= 0 && position < mList.size();
+        return mList != null && !mList.isEmpty() && position >= 0 && position <= mList.size();
 
     }
 

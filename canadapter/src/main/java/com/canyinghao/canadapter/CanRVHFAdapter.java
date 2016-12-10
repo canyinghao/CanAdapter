@@ -76,10 +76,17 @@ public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<Ca
 
     }
 
+    public F getFooter() {
+        return footer;
+    }
 
     public void setHeader(H header) {
         this.header = header;
 
+    }
+
+    public H getHeader() {
+        return header;
     }
 
     public void resetStatus(){

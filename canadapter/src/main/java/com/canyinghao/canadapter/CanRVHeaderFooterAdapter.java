@@ -2,7 +2,6 @@ package com.canyinghao.canadapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,27 +21,21 @@ import java.util.List;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<CanRViewHolder> implements CanSpanSize {
+public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Adapter<CanRViewHolder> implements CanSpanSize {
 
 
-    public static final int TYPE_GROUP = 0;
-    public static final int TYPE_CHILD = 1;
-    public static final int TYPE_HEADER = 2;
-    public static final int TYPE_FOOTER = 3;
+    public static final int TYPE_CHILD = 0;
+    public static final int TYPE_HEADER = 1;
+    public static final int TYPE_FOOTER = 2;
 
 
-    protected int itemGroupLayoutId;
     protected int itemChildLayoutId;
     protected int itemHeaderLayoutId;
     protected int itemFooterLayoutId;
 
     protected Context mContext;
 
-    protected List<G> mGroupList;
-    protected List<List<C>> mChildList;
-
-
-    private SparseArray<ErvType> ervTypes;
+    protected List<C> mChildList;
 
 
     private F footer;
@@ -50,21 +43,21 @@ public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<Ca
     protected RecyclerView mRecyclerView;
 
 
-    public CanRVHFAdapter(RecyclerView mRecyclerView) {
+    public CanRVHeaderFooterAdapter(RecyclerView mRecyclerView) {
         super();
         this.mContext = mRecyclerView.getContext();
         this.mRecyclerView = mRecyclerView;
-        this.mGroupList = new ArrayList<>();
+
         this.mChildList = new ArrayList<>();
-        this.ervTypes = new SparseArray<>();
+
 
     }
 
 
-    public CanRVHFAdapter(RecyclerView mRecyclerView, int itemChildLayoutId, int itemGroupLayoutId, int itemHeaderLayoutId, int itemFooterLayoutId) {
+    public CanRVHeaderFooterAdapter(RecyclerView mRecyclerView, int itemChildLayoutId,  int itemHeaderLayoutId, int itemFooterLayoutId) {
         this(mRecyclerView);
         this.itemChildLayoutId = itemChildLayoutId;
-        this.itemGroupLayoutId = itemGroupLayoutId;
+
         this.itemHeaderLayoutId = itemHeaderLayoutId;
         this.itemFooterLayoutId = itemFooterLayoutId;
 
@@ -89,42 +82,24 @@ public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<Ca
         return header;
     }
 
-    public void resetStatus(){
-
-        ervTypes.clear();
-
-    }
 
 
     /**
      * child的实际个数
      *
-     * @param group
-     * @return
-     */
-    public int getChildItemCount(int group) {
-
-        if (mChildList.size() <= group) {
-            return 0;
-        }
-        return mChildList.get(group).size();
-    }
-
-
-    /**
-     * group的个数
      *
      * @return
      */
-    public int getGroupItemCount() {
-        if (mGroupList.isEmpty()) {
+    public int getChildItemCount() {
+
+        if (mChildList.size() <= 0) {
             return 0;
         }
-
-        return mGroupList.size();
-
-
+        return mChildList.size();
     }
+
+
+
 
 
     @Override
@@ -136,29 +111,9 @@ public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<Ca
         int footerCount = footer == null ? 0 : 1;
 
 
-        int groupCount = getGroupItemCount();
 
 
-        if (groupCount == 0) {
-
-
-            count = headerCount + footerCount + getChildItemCount(0);
-
-
-        } else {
-
-            for (int i = 0; i < groupCount; i++) {
-
-
-                count += getChildItemCount(i);
-
-
-            }
-
-            count += groupCount + headerCount + footerCount;
-
-
-        }
+        count = headerCount + footerCount + getChildItemCount();
 
 
         return count;
@@ -171,21 +126,27 @@ public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<Ca
     }
 
 
-    public G getGroupItem(int position) {
-        return mGroupList.get(position);
+
+
+    public C getChildItem( int position) {
+
+        position = getChildPosition(position);
+
+        return mChildList.get(position);
     }
 
-    public C getChildItem(int group, int position) {
-        return mChildList.get(group).get(position);
+    public int getChildPosition( int position){
+        if (header != null) {
+
+            position -= 1;
+        }
+        return position;
     }
 
 
-    public List<G> getGroupList() {
-        return mGroupList;
-    }
 
 
-    public List<List<C>> getChildList() {
+    public List<C> getChildList() {
         return mChildList;
     }
 
@@ -193,30 +154,21 @@ public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<Ca
     /**
      * 设置数据
      *
-     * @param datas
+     * @param childData
      */
-    public void setList(List<G> datas, List<List<C>> childData) {
+    public void setList( List<C> childData) {
 
-        mGroupList.clear();
+
         mChildList.clear();
 
-        if (datas != null && !datas.isEmpty()) {
-            mGroupList.addAll(datas);
-        }
         if (childData != null && !childData.isEmpty()) {
             mChildList.addAll(childData);
         }
+
         notifyDataSetChanged();
     }
 
 
-    protected CanRViewHolder onCreateGroupViewHolder(ViewGroup parent, int viewType) {
-
-        View itemView = LayoutInflater.from(mContext).inflate(itemGroupLayoutId, parent, false);
-
-        return new CanRViewHolder(mRecyclerView, itemView).setViewType(viewType);
-
-    }
 
     protected CanRViewHolder onCreateChildViewHolder(ViewGroup parent, int viewType) {
 
@@ -252,15 +204,7 @@ public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<Ca
         } else if (isFooterPosition(position)) {
             viewType = TYPE_FOOTER;
         } else {
-
-            ErvType ervType = ervTypes.get(position);
-
-            if(ervType==null){
-                ervType = getItemErvType(position);
-                ervTypes.put(position,ervType);
-            }
-
-            viewType = ervType.type;
+            viewType = TYPE_CHILD;
         }
         return viewType;
     }
@@ -279,9 +223,6 @@ public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<Ca
 
                 return onCreateFooterViewHolder(parent, viewType);
 
-
-            case TYPE_GROUP:
-                return onCreateGroupViewHolder(parent, viewType);
 
         }
 
@@ -309,29 +250,10 @@ public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<Ca
 
                 break;
 
-            case TYPE_GROUP:
+
             case TYPE_CHILD:
 
-                ErvType ervType = ervTypes.get(position);
-
-                if(ervType==null){
-                    ervType = getItemErvType(position);
-                    ervTypes.put(position,ervType);
-                }
-
-
-                if (ervType.type == TYPE_CHILD) {
-
-
-                    setChildView(mHolderHelper, ervType.group, ervType.position, getChildItem(ervType.group, ervType.position));
-
-
-                } else {
-
-                    setGroupView(mHolderHelper, ervType.group, ervType.position, getGroupItem(ervType.group));
-
-
-                }
+                setChildView(mHolderHelper, getChildPosition(position),getChildItem(position));
 
 
                 break;
@@ -346,18 +268,6 @@ public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<Ca
 
 
 
-    public boolean isGroupPosition(int i) {
-
-        ErvType ervType = ervTypes.get(i);
-
-        if(ervType==null){
-            ervType = getItemErvType(i);
-            ervTypes.put(i,ervType);
-        }
-
-
-        return ervType.type==TYPE_GROUP;
-    }
 
     public boolean isHeaderPosition(int position) {
         return header != null && position == 0;
@@ -371,28 +281,12 @@ public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<Ca
 
 
 
-    public int getSpanIndex(int position, int spanCount){
-
-        ErvType ervType = ervTypes.get(position);
-
-        if(ervType==null){
-            ervType = getItemErvType(position);
-            ervTypes.put(position,ervType);
-        }
-
-        if(ervType.type==TYPE_CHILD){
-
-            return ervType.position%spanCount;
-        }
-
-        return  0;
-
-    }
 
 
-    protected abstract void setChildView(CanHolderHelper helper, int group, int position, C bean);
 
-    protected abstract void setGroupView(CanHolderHelper helper, int group, int position, G bean);
+    protected abstract void setChildView(CanHolderHelper helper, int position, C bean);
+
+
 
     protected abstract void setHeaderView(CanHolderHelper helper, int position, H bean);
 
@@ -418,9 +312,6 @@ public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<Ca
 
                 break;
 
-            case TYPE_GROUP:
-                onGroupViewRecycled(holder);
-                break;
             case TYPE_CHILD:
 
 
@@ -443,67 +334,18 @@ public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<Ca
     }
 
 
-    protected void onGroupViewRecycled(CanRViewHolder holder) {
+    @Override
+    public int getSpanIndex(int position, int spanCount) {
+
+        if(isHeaderPosition(position)||isFooterPosition(position)){
+            return 0;
+        }
+
+        return getChildPosition(position)%spanCount;
     }
 
-
-    /**
-     * 计算正确的group和position
-     *
-     * @param i position
-     * @return 一个计算好的group和position
-     */
-    public ErvType getItemErvType(int i) {
-
-
-        if (header != null) {
-
-            i -= 1;
-        }
-
-        for (int group = 0; group < getGroupItemCount(); group++) {
-
-
-
-            if (i >= 1) {
-
-                i -= 1;
-
-                if (i < getChildItemCount(group)) {
-
-
-                    return new ErvType(TYPE_CHILD, group, i);
-                }
-
-                i -= getChildItemCount(group);
-                continue;
-
-            }
-
-            if (i < 1) {
-
-                return new ErvType(TYPE_GROUP, group, i);
-            }
-
-
-        }
-
-
-        return new ErvType(TYPE_CHILD, 0, i);
-    }
-
-
-    public static class ErvType {
-
-        public int type;
-        public int group;
-        public int position;
-
-
-        public ErvType(int type, int group, int position) {
-            this.type = type;
-            this.group = group;
-            this.position = position;
-        }
+    @Override
+    public boolean isGroupPosition(int position) {
+        return false;
     }
 }

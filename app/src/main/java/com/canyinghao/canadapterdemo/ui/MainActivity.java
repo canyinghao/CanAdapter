@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         RVListFragment rvListFragment = new RVListFragment();
         RVGridFragment rvGridFragment = new RVGridFragment();
         ERVGridFragment ervGridFragment = new ERVGridFragment();
-        RVHFGridFragment rvhfGridFragment = new RVHFGridFragment();
+        RVHFGridFragment1 rvhfGridFragment = new RVHFGridFragment1();
 
 
         adapter.addFragment(listViewFragment, strs[0]);

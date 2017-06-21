@@ -17,10 +17,10 @@ import android.support.v7.widget.GridLayoutManager;
  */
 public class CanSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
 
-    private final CanRVHFAdapter adapter;
+    private final CanSpanSize adapter;
     private final int spanCount;
 
-    public CanSpanSizeLookup(CanRVHFAdapter adapter, int spanCount) {
+    public CanSpanSizeLookup(CanSpanSize adapter, int spanCount) {
         this.adapter = adapter;
         this.spanCount = spanCount;
     }

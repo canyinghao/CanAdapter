@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -42,6 +43,8 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
     private H header;
     protected RecyclerView mRecyclerView;
 
+    //    item项等分个数
+    protected int ratio;
 
     public CanRVHeaderFooterAdapter(RecyclerView mRecyclerView) {
         super();
@@ -183,7 +186,7 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
 
         View itemView = LayoutInflater.from(mContext).inflate(itemHeaderLayoutId, parent, false);
 
-        return new CanRViewHolder(mRecyclerView, itemView).setViewType(viewType);
+        return new CanRViewHolder(mRecyclerView, itemView,ratio).setViewType(viewType);
 
     }
 
@@ -191,7 +194,7 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
 
         View itemView = LayoutInflater.from(mContext).inflate(itemFooterLayoutId, parent, false);
 
-        return new CanRViewHolder(mRecyclerView, itemView).setViewType(viewType);
+        return new CanRViewHolder(mRecyclerView, itemView,ratio).setViewType(viewType);
 
     }
 
@@ -347,5 +350,176 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
     @Override
     public boolean isGroupPosition(int position) {
         return false;
+    }
+
+
+
+
+
+
+    public int getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(int ratio) {
+        this.ratio = ratio;
+    }
+
+    /**
+     * 获取数据
+     *
+     * @return List
+     */
+    public List<C> getList() {
+        return mChildList;
+    }
+
+    /**
+     * 添加到头部
+     *
+     * @param datas List
+     */
+    public void addNewList(List<C> datas) {
+        if (datas != null && !datas.isEmpty()) {
+            mChildList.addAll(0, datas);
+            notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * 添加到末尾
+     *
+     * @param datas List
+     */
+    public void addMoreList(List<C> datas) {
+        if (datas != null && !datas.isEmpty()) {
+            mChildList.addAll(datas);
+            notifyDataSetChanged();
+        }
+    }
+
+
+
+
+    /**
+     * 清空
+     */
+    public void clear() {
+        mChildList.clear();
+        notifyDataSetChanged();
+    }
+
+
+    /**
+     * 删除指定索引数据条目
+     *
+     * @param position position
+     */
+    public void removeItem(int position) {
+        if (isSafePosition(position)) {
+            mChildList.remove(position);
+            notifyItemRangeRemoved(position, 1);
+        }
+
+    }
+
+    /**
+     * 删除指定数据条目
+     *
+     * @param model T
+     */
+    public void removeItem(C model) {
+
+        if (mChildList != null && mChildList.contains(model)) {
+            int index = mChildList.indexOf(model);
+            if (isSafePosition(index)) {
+                removeItem(index);
+            }
+        }
+
+
+    }
+
+    /**
+     * 在指定位置添加数据条目
+     *
+     * @param position int
+     * @param model    T
+     */
+    public void addItem(int position, C model) {
+
+        if(position>=0&&position<=mChildList.size()){
+            mChildList.add(position, model);
+            notifyItemInserted(position);
+        }
+
+
+
+    }
+
+    /**
+     * 在集合头部添加数据条目
+     *
+     * @param model T
+     */
+    public void addFirstItem(C model) {
+        addItem(0, model);
+    }
+
+    /**
+     * 在集合末尾添加数据条目
+     *
+     * @param model T
+     */
+    public void addLastItem(C model) {
+        addItem(mChildList.size(), model);
+    }
+
+    /**
+     * 替换指定索引的数据条目
+     *
+     * @param location int
+     * @param newModel T
+     */
+    public void setItem(int location, C newModel) {
+
+        if (isSafePosition(location)) {
+            mChildList.set(location, newModel);
+
+            notifyItemChanged(location);
+        }
+
+    }
+
+    /**
+     * 替换指定数据条目
+     *
+     * @param oldModel T
+     * @param newModel T
+     */
+    public void setItem(C oldModel, C newModel) {
+        setItem(mChildList.indexOf(oldModel), newModel);
+    }
+
+    /**
+     * 交换两个数据条目的位置
+     *
+     * @param fromPosition int
+     * @param toPosition   int
+     */
+    public void moveItem(int fromPosition, int toPosition) {
+
+        if (isSafePosition(fromPosition) && isSafePosition(toPosition)) {
+            Collections.swap(mChildList, fromPosition, toPosition);
+            notifyItemMoved(fromPosition, toPosition);
+        }
+
+    }
+
+    private boolean isSafePosition(int position) {
+
+
+        return mChildList != null && position >= 0 && position < mChildList.size();
+
     }
 }

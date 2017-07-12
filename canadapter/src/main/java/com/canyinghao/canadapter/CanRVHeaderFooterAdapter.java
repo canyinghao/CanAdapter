@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -135,7 +137,35 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
 
         position = getChildPosition(position);
 
-        return mChildList.get(position);
+        if (isSafePosition(position)) {
+            return mChildList.get(position);
+        }
+        return null;
+    }
+
+
+    public C getItem(int position) {
+
+        int tempPosition = getChildPosition(position);
+
+        if (isSafePosition(tempPosition)) {
+            return mChildList.get(tempPosition);
+        }
+
+        try{
+            if(footer!=null&&position==getItemCount()-1){
+                Type genType = getClass().getGenericSuperclass();
+                Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+                Class entityClass = (Class) params[0];
+                if(footer.getClass()==entityClass){
+                    return  (C)footer;
+                }
+            }
+        }catch (Throwable e){
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public int getChildPosition( int position){

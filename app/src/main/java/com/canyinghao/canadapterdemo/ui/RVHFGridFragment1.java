@@ -69,6 +69,8 @@ public class RVHFGridFragment1 extends Fragment {
             @Override
             protected void setFooterView(CanHolderHelper helper, int position, MainBean bean) {
 
+
+
             }
 
 
@@ -86,8 +88,8 @@ public class RVHFGridFragment1 extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(adapter);
 
-        adapter.setFooter(new MainBean());
-        adapter.setHeader(new MainBean());
+        adapter.setFooter(new MainBean("footer"));
+        adapter.setHeader(new MainBean("header"));
 
 
 

@@ -59,7 +59,7 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
     }
 
 
-    public CanRVHeaderFooterAdapter(RecyclerView mRecyclerView, int itemChildLayoutId,  int itemHeaderLayoutId, int itemFooterLayoutId) {
+    public CanRVHeaderFooterAdapter(RecyclerView mRecyclerView, int itemChildLayoutId, int itemHeaderLayoutId, int itemFooterLayoutId) {
         this(mRecyclerView);
         this.itemChildLayoutId = itemChildLayoutId;
 
@@ -88,10 +88,8 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
     }
 
 
-
     /**
      * child的实际个数
-     *
      *
      * @return
      */
@@ -104,9 +102,6 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
     }
 
 
-
-
-
     @Override
     public int getItemCount() {
 
@@ -114,8 +109,6 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
 
         int headerCount = header == null ? 0 : 1;
         int footerCount = footer == null ? 0 : 1;
-
-
 
 
         count = headerCount + footerCount + getChildItemCount();
@@ -131,9 +124,7 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
     }
 
 
-
-
-    public C getChildItem( int position) {
+    public C getChildItem(int position) {
 
         position = getChildPosition(position);
 
@@ -146,37 +137,49 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
 
     public C getItem(int position) {
 
-        int tempPosition = getChildPosition(position);
-
-        if (isSafePosition(tempPosition)) {
-            return mChildList.get(tempPosition);
-        }
-
-        try{
-            if(footer!=null&&position==getItemCount()-1){
-                Type genType = getClass().getGenericSuperclass();
-                Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
-                Class entityClass = (Class) params[0];
-                if(footer.getClass()==entityClass){
-                    return  (C)footer;
+        if (isHeaderPosition(position)) {
+            try {
+                Class entityClass = getEntityClass();
+                if (header.getClass() == entityClass) {
+                    return (C) header;
                 }
+            } catch (Throwable e) {
+                e.printStackTrace();
             }
-        }catch (Throwable e){
-            e.printStackTrace();
+        } else if (isFooterPosition(position)) {
+            try {
+                Class entityClass = getEntityClass();
+                if (footer.getClass() == entityClass) {
+                    return (C) footer;
+                }
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+        } else {
+            position = getChildPosition(position);
+
+            if (isSafePosition(position)) {
+                return mChildList.get(position);
+            }
         }
+
 
         return null;
     }
 
-    public int getChildPosition( int position){
+    private Class getEntityClass() {
+        Type genType = getClass().getGenericSuperclass();
+        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+        return (Class) params[0];
+    }
+
+    public int getChildPosition(int position) {
         if (header != null) {
 
             position -= 1;
         }
         return position;
     }
-
-
 
 
     public List<C> getChildList() {
@@ -189,7 +192,7 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
      *
      * @param childData
      */
-    public void setList( List<C> childData) {
+    public void setList(List<C> childData) {
 
 
         mChildList.clear();
@@ -200,7 +203,6 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
 
         notifyDataSetChanged();
     }
-
 
 
     protected CanRViewHolder onCreateChildViewHolder(ViewGroup parent, int viewType) {
@@ -216,7 +218,7 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
 
         View itemView = LayoutInflater.from(mContext).inflate(itemHeaderLayoutId, parent, false);
 
-        return new CanRViewHolder(mRecyclerView, itemView,ratio).setViewType(viewType);
+        return new CanRViewHolder(mRecyclerView, itemView, ratio).setViewType(viewType);
 
     }
 
@@ -224,7 +226,7 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
 
         View itemView = LayoutInflater.from(mContext).inflate(itemFooterLayoutId, parent, false);
 
-        return new CanRViewHolder(mRecyclerView, itemView,ratio).setViewType(viewType);
+        return new CanRViewHolder(mRecyclerView, itemView, ratio).setViewType(viewType);
 
     }
 
@@ -286,7 +288,7 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
 
             case TYPE_CHILD:
 
-                setChildView(mHolderHelper, getChildPosition(position),getChildItem(position));
+                setChildView(mHolderHelper, getChildPosition(position), getChildItem(position));
 
 
                 break;
@@ -296,10 +298,6 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
 
 
     }
-
-
-
-
 
 
     public boolean isHeaderPosition(int position) {
@@ -313,12 +311,7 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
     }
 
 
-
-
-
-
     protected abstract void setChildView(CanHolderHelper helper, int position, C bean);
-
 
 
     protected abstract void setHeaderView(CanHolderHelper helper, int position, H bean);
@@ -327,7 +320,7 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
 
 
     @Override
-    public  void onViewRecycled(CanRViewHolder holder) {
+    public void onViewRecycled(CanRViewHolder holder) {
 
 
         int viewType = holder.getViewType();
@@ -370,21 +363,17 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
     @Override
     public int getSpanIndex(int position, int spanCount) {
 
-        if(isHeaderPosition(position)||isFooterPosition(position)){
+        if (isHeaderPosition(position) || isFooterPosition(position)) {
             return 0;
         }
 
-        return getChildPosition(position)%spanCount;
+        return getChildPosition(position) % spanCount;
     }
 
     @Override
     public boolean isGroupPosition(int position) {
         return false;
     }
-
-
-
-
 
 
     public int getRatio() {
@@ -427,8 +416,6 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
             notifyDataSetChanged();
         }
     }
-
-
 
 
     /**
@@ -478,11 +465,10 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
      */
     public void addItem(int position, C model) {
 
-        if(position>=0&&position<=mChildList.size()){
+        if (position >= 0 && position <= mChildList.size()) {
             mChildList.add(position, model);
             notifyItemInserted(position);
         }
-
 
 
     }

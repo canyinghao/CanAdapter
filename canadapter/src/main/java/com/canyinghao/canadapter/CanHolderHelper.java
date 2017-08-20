@@ -69,7 +69,7 @@ public class CanHolderHelper  implements View.OnClickListener, View.OnLongClickL
     protected final SparseArray<View> mViews;
     protected View mConvertView;
     protected Context mContext;
-    protected int mPosition;
+    public int mPosition;
     protected CanOnItemListener mOnItemListener;
     protected Object mObj;
 

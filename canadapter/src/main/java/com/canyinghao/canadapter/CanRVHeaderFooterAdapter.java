@@ -371,6 +371,11 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
     }
 
     @Override
+    public int getSpanSize(int position) {
+        return 1;
+    }
+
+    @Override
     public boolean isGroupPosition(int position) {
         return false;
     }

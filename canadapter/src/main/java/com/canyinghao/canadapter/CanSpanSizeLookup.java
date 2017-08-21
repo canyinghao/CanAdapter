@@ -19,15 +19,27 @@ public class CanSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
 
     private final CanSpanSize adapter;
     private final int spanCount;
+    private boolean isCustomSpanIndex;
 
     public CanSpanSizeLookup(CanSpanSize adapter, int spanCount) {
         this.adapter = adapter;
         this.spanCount = spanCount;
+
+        setSpanIndexCacheEnabled(true);
+
     }
 
     @Override
     public void invalidateSpanIndexCache() {
         super.invalidateSpanIndexCache();
+    }
+
+    public void setCustomSpanIndex(boolean customSpanIndex) {
+        isCustomSpanIndex = customSpanIndex;
+    }
+
+    public boolean isCustomSpanIndex() {
+        return isCustomSpanIndex;
     }
 
     @Override
@@ -36,7 +48,7 @@ public class CanSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
         boolean isRow = adapter.isHeaderPosition(position)
                 || adapter.isFooterPosition(position)
                 || adapter.isGroupPosition(position);
-        return isRow ? spanCount : 1;
+        return isRow ? spanCount : adapter.getSpanSize(position);
 
 
     }
@@ -45,8 +57,10 @@ public class CanSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
     @Override
     public int getSpanIndex(int position, int spanCount) {
 
-
-        return adapter.getSpanIndex(position,spanCount);
+        if(isCustomSpanIndex){
+            return adapter.getSpanIndex(position,spanCount);
+        }
+        return super.getSpanIndex(position,spanCount);
     }
 
 

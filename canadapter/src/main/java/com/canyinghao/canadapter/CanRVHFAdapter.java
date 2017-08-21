@@ -389,6 +389,10 @@ public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<Ca
 
     }
 
+    @Override
+    public int getSpanSize(int position) {
+        return 1;
+    }
 
     protected abstract void setChildView(CanHolderHelper helper, int group, int position, C bean);
 

@@ -27,12 +27,12 @@ import java.util.List;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public abstract class CanRVMuchAdapter extends RecyclerView.Adapter<CanRViewHolder> implements CanSpanSize {
+public abstract class CanRVMuchAdapter<T extends MuchItemBean> extends RecyclerView.Adapter<CanRViewHolder> implements CanSpanSize {
 
 
     protected Context mContext;
 
-    protected List<MuchBean> mChildList;
+    protected List<MuchBean<T>> mChildList;
 
 
     private SparseArray<ErvType> ervTypes;
@@ -60,8 +60,8 @@ public abstract class CanRVMuchAdapter extends RecyclerView.Adapter<CanRViewHold
     /**
      * child的实际个数
      *
-     * @param group
-     * @return
+     * @param group int
+     * @return int
      */
     public int getChildItemCount(int group) {
 
@@ -84,7 +84,7 @@ public abstract class CanRVMuchAdapter extends RecyclerView.Adapter<CanRViewHold
     /**
      * group的个数
      *
-     * @return
+     * @return int
      */
     public int getGroupItemCount() {
         if (mChildList.isEmpty()) {
@@ -131,12 +131,12 @@ public abstract class CanRVMuchAdapter extends RecyclerView.Adapter<CanRViewHold
         return position;
     }
 
-    public MuchBean getGroupItem(int position) {
+    public MuchBean<T> getGroupItem(int position) {
         return mChildList.get(position);
     }
 
-    public MuchItemBean getChildItem(int group, int position) {
-        MuchBean muchBean = getGroupItem(group);
+    public T getChildItem(int group, int position) {
+        MuchBean<T> muchBean = getGroupItem(group);
         if (muchBean != null && muchBean.list != null) {
 
             return muchBean.list.get(position);
@@ -145,17 +145,9 @@ public abstract class CanRVMuchAdapter extends RecyclerView.Adapter<CanRViewHold
     }
 
 
-    public List<MuchBean> getChildList() {
-        return mChildList;
-    }
 
 
-    /**
-     * 设置数据
-     *
-     * @param childData
-     */
-    public void setList(List<MuchBean> childData) {
+    public void setList(List<MuchBean<T>> childData) {
 
 
         mChildList.clear();
@@ -231,7 +223,7 @@ public abstract class CanRVMuchAdapter extends RecyclerView.Adapter<CanRViewHold
 
             if (i >= 0) {
 
-                MuchBean muchBean = getGroupItem(group);
+                MuchBean<T> muchBean = getGroupItem(group);
                 if (muchBean.header != null) {
                     if (i == 0) {
 
@@ -316,7 +308,7 @@ public abstract class CanRVMuchAdapter extends RecyclerView.Adapter<CanRViewHold
         int group = ervType.group;
         int tempPosition = ervType.position;
 
-        MuchBean bean = getGroupItem(group);
+        MuchBean<T> bean = getGroupItem(group);
 
 
 //        上一次计算到的index
@@ -401,7 +393,7 @@ public abstract class CanRVMuchAdapter extends RecyclerView.Adapter<CanRViewHold
      *
      * @return List
      */
-    public List<MuchBean> getList() {
+    public List<MuchBean<T>> getList() {
         return mChildList;
     }
 
@@ -410,7 +402,7 @@ public abstract class CanRVMuchAdapter extends RecyclerView.Adapter<CanRViewHold
      *
      * @param datas List
      */
-    public void addNewList(List<MuchBean> datas) {
+    public void addNewList(List<MuchBean<T>> datas) {
         if (datas != null && !datas.isEmpty()) {
             mChildList.addAll(0, datas);
             notifyDataSetChanged();
@@ -422,7 +414,7 @@ public abstract class CanRVMuchAdapter extends RecyclerView.Adapter<CanRViewHold
      *
      * @param datas List
      */
-    public void addMoreList(List<MuchBean> datas) {
+    public void addMoreList(List<MuchBean<T>> datas) {
         if (datas != null && !datas.isEmpty()) {
             mChildList.addAll(datas);
             notifyDataSetChanged();
@@ -457,7 +449,7 @@ public abstract class CanRVMuchAdapter extends RecyclerView.Adapter<CanRViewHold
      *
      * @param model T
      */
-    public void removeItem(MuchBean model) {
+    public void removeItem(MuchBean<T> model) {
 
         if (mChildList != null && mChildList.contains(model)) {
             int index = mChildList.indexOf(model);
@@ -475,7 +467,7 @@ public abstract class CanRVMuchAdapter extends RecyclerView.Adapter<CanRViewHold
      * @param position int
      * @param model    T
      */
-    public void addItem(int position, MuchBean model) {
+    public void addItem(int position, MuchBean<T> model) {
 
         if (position >= 0 && position <= mChildList.size()) {
             mChildList.add(position, model);
@@ -490,7 +482,7 @@ public abstract class CanRVMuchAdapter extends RecyclerView.Adapter<CanRViewHold
      *
      * @param model T
      */
-    public void addFirstItem(MuchBean model) {
+    public void addFirstItem(MuchBean<T> model) {
         addItem(0, model);
     }
 
@@ -499,7 +491,7 @@ public abstract class CanRVMuchAdapter extends RecyclerView.Adapter<CanRViewHold
      *
      * @param model T
      */
-    public void addLastItem(MuchBean model) {
+    public void addLastItem(MuchBean<T> model) {
         addItem(mChildList.size(), model);
     }
 
@@ -509,7 +501,7 @@ public abstract class CanRVMuchAdapter extends RecyclerView.Adapter<CanRViewHold
      * @param location int
      * @param newModel T
      */
-    public void setItem(int location, MuchBean newModel) {
+    public void setItem(int location, MuchBean<T> newModel) {
 
         if (isSafePosition(location)) {
             mChildList.set(location, newModel);
@@ -525,7 +517,7 @@ public abstract class CanRVMuchAdapter extends RecyclerView.Adapter<CanRViewHold
      * @param oldModel T
      * @param newModel T
      */
-    public void setItem(MuchBean oldModel, MuchBean newModel) {
+    public void setItem(MuchBean<T> oldModel, MuchBean<T> newModel) {
         setItem(mChildList.indexOf(oldModel), newModel);
     }
 

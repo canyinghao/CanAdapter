@@ -42,11 +42,11 @@ public abstract class CanRVHFAdapter<C, G, H, F> extends RecyclerView.Adapter<Ca
     protected List<List<C>> mChildList;
 
 
-    private SparseArray<ErvType> ervTypes;
+    protected SparseArray<ErvType> ervTypes;
 
 
-    private F footer;
-    private H header;
+    protected F footer;
+    protected H header;
     protected RecyclerView mRecyclerView;
 
 

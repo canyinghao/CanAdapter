@@ -41,8 +41,8 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
     protected List<C> mChildList;
 
 
-    private F footer;
-    private H header;
+    protected F footer;
+    protected H header;
     protected RecyclerView mRecyclerView;
 
     //    item项等分个数

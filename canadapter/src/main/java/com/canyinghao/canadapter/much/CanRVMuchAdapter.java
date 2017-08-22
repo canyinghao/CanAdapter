@@ -35,7 +35,7 @@ public abstract class CanRVMuchAdapter<T extends MuchItemBean> extends RecyclerV
     protected List<MuchBean<T>> mChildList;
 
 
-    private SparseArray<ErvType> ervTypes;
+    protected SparseArray<ErvType> ervTypes;
 
 
     protected RecyclerView mRecyclerView;

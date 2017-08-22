@@ -35,20 +35,20 @@ public abstract class CanErvAdapter<G, C> extends RecyclerView.Adapter<CanRViewH
     protected List<List<C>> mChildList;
 
     protected RecyclerView mRecyclerView;
-    private int mSpanCount = 1;
+    protected int mSpanCount = 1;
 
     // 是否能够收拢
-    private boolean isCannotCollapse;
+    protected boolean isCannotCollapse;
     // 是否只能展开一个
-    private boolean isSingleExpand;
+    protected boolean isSingleExpand;
     // 当前展开的groupid
     protected int mSingleExpand = -1;
     //  当前展开的helper
-    private CanHolderHelper mLastExpandHelper;
+    protected CanHolderHelper mLastExpandHelper;
 
 
     // 存储展开的group状态
-    private SparseBooleanArray expandArray = new SparseBooleanArray();
+    protected SparseBooleanArray expandArray = new SparseBooleanArray();
 
 
     public CanErvAdapter(RecyclerView mRecyclerView) {

@@ -102,6 +102,18 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
         return mList;
     }
 
+
+    /**
+     * 获取一个从copy的list
+     * @return List
+     */
+    public List<T>  getCopyList(){
+
+        List<T> list = new ArrayList<>();
+        list.addAll(mList);
+        return list;
+    }
+
     /**
      * 添加到头部
      *
@@ -142,6 +154,15 @@ public abstract class CanRVAdapter<T> extends RecyclerView.Adapter<CanRViewHolde
         notifyDataSetChanged();
     }
 
+
+    /**
+     * 删除一个列表
+     * @param datas List
+     */
+    public void removeList(List<T> datas){
+        mList.removeAll(datas);
+        notifyDataSetChanged();
+    }
     /**
      * 清空
      */

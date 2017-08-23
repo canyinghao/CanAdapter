@@ -398,6 +398,19 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
         return mChildList;
     }
 
+
+    /**
+     * 获取一个从copy的list
+     * @return List
+     */
+    public List<C>  getCopyList(){
+
+        List<C> list = new ArrayList<>();
+        list.addAll(mChildList);
+        return list;
+    }
+
+
     /**
      * 添加到头部
      *
@@ -460,6 +473,15 @@ public abstract class CanRVHeaderFooterAdapter<C, H, F> extends RecyclerView.Ada
         }
 
 
+    }
+
+    /**
+     * 删除一个列表
+     * @param datas ListC
+     */
+    public void removeList(List<C> datas){
+        mChildList.removeAll(datas);
+        notifyDataSetChanged();
     }
 
     /**

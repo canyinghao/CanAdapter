@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.canyinghao.canadapter.touch.OnItemMoveListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +26,7 @@ import java.util.List;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public abstract class CanErvAdapter<G, C> extends RecyclerView.Adapter<CanRViewHolder> {
+public abstract class CanErvAdapter<G, C> extends RecyclerView.Adapter<CanRViewHolder> implements OnItemMoveListener{
     public static final int TYPE_GROUP = 0;
     public static final int TYPE_CHILD = 1;
 
@@ -526,6 +528,22 @@ public abstract class CanErvAdapter<G, C> extends RecyclerView.Adapter<CanRViewH
             this.position = position;
         }
     }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        if (toPosition-1 == 0||toPosition-1==1){//不能去 0和1位置 不能移动
+            return;
+        }
+        try{
+
+            notifyItemMoved(fromPosition, toPosition);
+
+        }catch (Throwable e){
+            e.printStackTrace();
+        }
+
+    }
+
 }
 
 

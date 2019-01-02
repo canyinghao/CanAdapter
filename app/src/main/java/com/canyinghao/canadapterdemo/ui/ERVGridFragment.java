@@ -42,6 +42,11 @@ public class ERVGridFragment extends Fragment {
         GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(mLayoutManager);
 
+
+//        ItemDragHelperCallback callback = new ItemDragHelperCallback();
+//        final ItemTouchHelper helper = new ItemTouchHelper(callback);
+//        helper.attachToRecyclerView(recyclerView);
+
         final CanErvAdapter<MainBean,MainBean> adapter = new CanErvAdapter<MainBean,MainBean>(recyclerView, R.layout.item_group,R.layout.item_image) {
 
 
@@ -122,7 +127,7 @@ public class ERVGridFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
-        adapter.setSingleExpand(true);
+        adapter.setSingleExpand(false);
 
 //        adapter.setCannotCollapse(true);
         List<MainBean> gList = new ArrayList<>();

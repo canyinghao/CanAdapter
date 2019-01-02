@@ -71,6 +71,10 @@ public abstract class CanRVMuchAdapter<T extends MuchItemBean> extends RecyclerV
 
         MuchBean muchBean = mChildList.get(group);
 
+        if(muchBean==null){
+            return 0;
+        }
+
         int count = 0;
 
         count += muchBean.header != null ? 1 : 0;

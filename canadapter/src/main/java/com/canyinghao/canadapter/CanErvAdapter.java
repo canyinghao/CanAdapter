@@ -1,8 +1,6 @@
 package com.canyinghao.canadapter;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -13,6 +11,9 @@ import com.canyinghao.canadapter.touch.OnItemMoveListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Copyright 2016 canyinghao

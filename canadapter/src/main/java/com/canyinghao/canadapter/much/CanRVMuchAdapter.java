@@ -387,7 +387,9 @@ public abstract class CanRVMuchAdapter<T extends MuchItemBean> extends RecyclerV
             ervType = getItemErvType(position);
             ervTypes.put(position, ervType);
         }
-
+        if(ervType.itemBean==null){
+            return 1;
+        }
         return ervType.itemBean.spanSize;
     }
 

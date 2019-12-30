@@ -186,27 +186,40 @@ public abstract class CanRVMuchAdapter<T extends MuchItemBean> extends RecyclerV
 
     protected CanRViewHolder onCreateChildViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(mContext).inflate(viewType, parent, false);
+        try{
+            View itemView = LayoutInflater.from(mContext).inflate(viewType, parent, false);
+            return new CanRViewHolder(mRecyclerView, itemView).setViewType(viewType);
+        }catch (Throwable e){
 
-        return new CanRViewHolder(mRecyclerView, itemView).setViewType(viewType);
+        }
+        return null;
+
+
 
     }
 
     @Override
     public void onBindViewHolder(CanRViewHolder viewHolder, int position) {
+        if(viewHolder==null){
+            return;
+        }
+        try{
+            CanHolderHelper mHolderHelper = viewHolder.getCanHolderHelper();
+            mHolderHelper.setPosition(position);
 
-        CanHolderHelper mHolderHelper = viewHolder.getCanHolderHelper();
-        mHolderHelper.setPosition(position);
+            int viewType = viewHolder.getViewType();
+            ErvType ervType = ervTypes.get(position);
 
-        int viewType = viewHolder.getViewType();
-        ErvType ervType = ervTypes.get(position);
+            if (ervType == null) {
+                ervType = getItemErvType(position);
+                ervTypes.put(position, ervType);
+            }
 
-        if (ervType == null) {
-            ervType = getItemErvType(position);
-            ervTypes.put(position, ervType);
+            setView(mHolderHelper, ervType.group, ervType.position, viewType, ervType.itemBean);
+        }catch (Throwable e){
+            e.printStackTrace();
         }
 
-        setView(mHolderHelper, ervType.group, ervType.position, viewType, ervType.itemBean);
 
     }
 

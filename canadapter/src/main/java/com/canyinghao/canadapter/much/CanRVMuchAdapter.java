@@ -190,9 +190,9 @@ public abstract class CanRVMuchAdapter<T extends MuchItemBean> extends RecyclerV
             View itemView = LayoutInflater.from(mContext).inflate(viewType, parent, false);
             return new CanRViewHolder(mRecyclerView, itemView).setViewType(viewType);
         }catch (Throwable e){
-
+            View view =  new View(mContext);
+            return new CanRViewHolder(mRecyclerView,view).setViewType(0);
         }
-        return null;
 
 
 
@@ -203,11 +203,15 @@ public abstract class CanRVMuchAdapter<T extends MuchItemBean> extends RecyclerV
         if(viewHolder==null){
             return;
         }
+
         try{
+            int viewType = viewHolder.getViewType();
+            if(viewType==0){
+                return;
+            }
             CanHolderHelper mHolderHelper = viewHolder.getCanHolderHelper();
             mHolderHelper.setPosition(position);
 
-            int viewType = viewHolder.getViewType();
             ErvType ervType = ervTypes.get(position);
 
             if (ervType == null) {

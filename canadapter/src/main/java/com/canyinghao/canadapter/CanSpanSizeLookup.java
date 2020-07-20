@@ -46,11 +46,16 @@ public class CanSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
     @Override
     public int getSpanSize(int position) {
 
-        boolean isRow = adapter.isHeaderPosition(position)
-                || adapter.isFooterPosition(position)
-                || adapter.isGroupPosition(position);
-        return isRow ? spanCount : adapter.getSpanSize(position);
+        try{
+            boolean isRow = adapter.isHeaderPosition(position)
+                    || adapter.isFooterPosition(position)
+                    || adapter.isGroupPosition(position);
+            return isRow ? spanCount : adapter.getSpanSize(position);
 
+        }catch (Throwable e){
+            e.printStackTrace();
+        }
+        return 1;
 
     }
 

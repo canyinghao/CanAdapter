@@ -187,27 +187,44 @@ public abstract class CanRVMuchAdapter<T extends MuchItemBean> extends RecyclerV
 
     protected CanRViewHolder onCreateChildViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(mContext).inflate(viewType, parent, false);
+        try{
+            View itemView = LayoutInflater.from(mContext).inflate(viewType, parent, false);
+            return new CanRViewHolder(mRecyclerView, itemView).setViewType(viewType);
+        }catch (Throwable e){
+            View view =  new View(mContext);
+            return new CanRViewHolder(mRecyclerView,view).setViewType(0);
+        }
 
-        return new CanRViewHolder(mRecyclerView, itemView).setViewType(viewType);
+
 
     }
 
     @Override
     public void onBindViewHolder(CanRViewHolder viewHolder, int position) {
-
-        CanHolderHelper mHolderHelper = viewHolder.getCanHolderHelper();
-        mHolderHelper.setPosition(position);
-
-        int viewType = viewHolder.getViewType();
-        ErvType ervType = ervTypes.get(position);
-
-        if (ervType == null) {
-            ervType = getItemErvType(position);
-            ervTypes.put(position, ervType);
+        if(viewHolder==null){
+            return;
         }
 
-        setView(mHolderHelper, ervType.group, ervType.position, viewType, ervType.itemBean);
+        try{
+            int viewType = viewHolder.getViewType();
+            if(viewType==0){
+                return;
+            }
+            CanHolderHelper mHolderHelper = viewHolder.getCanHolderHelper();
+            mHolderHelper.setPosition(position);
+
+            ErvType ervType = ervTypes.get(position);
+
+            if (ervType == null) {
+                ervType = getItemErvType(position);
+                ervTypes.put(position, ervType);
+            }
+
+            setView(mHolderHelper, ervType.group, ervType.position, viewType, ervType.itemBean);
+        }catch (Throwable e){
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -388,7 +405,9 @@ public abstract class CanRVMuchAdapter<T extends MuchItemBean> extends RecyclerV
             ervType = getItemErvType(position);
             ervTypes.put(position, ervType);
         }
-
+        if(ervType.itemBean==null){
+            return 1;
+        }
         return ervType.itemBean.spanSize;
     }
 

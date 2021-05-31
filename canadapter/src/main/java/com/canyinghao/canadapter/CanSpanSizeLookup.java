@@ -1,7 +1,8 @@
 
 package com.canyinghao.canadapter;
 
-import android.support.v7.widget.GridLayoutManager;
+
+import androidx.recyclerview.widget.GridLayoutManager;
 
 /**
  * Copyright 2016 canyinghao

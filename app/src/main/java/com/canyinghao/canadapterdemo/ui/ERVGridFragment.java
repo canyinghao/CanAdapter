@@ -1,11 +1,8 @@
 package com.canyinghao.canadapterdemo.ui;
 
 
+import android.animation.ValueAnimator;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +14,13 @@ import com.canyinghao.canadapter.CanErvAdapter;
 import com.canyinghao.canadapter.CanHolderHelper;
 import com.canyinghao.canadapterdemo.R;
 import com.canyinghao.canadapterdemo.model.MainBean;
-import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.view.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by canyinghao on 16/1/21.
@@ -33,7 +32,6 @@ public class ERVGridFragment extends Fragment {
 
 
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -80,10 +78,10 @@ public class ERVGridFragment extends Fragment {
 
                 if (model.isExp){
 
-                    ViewHelper.setRotation(arrow,180);
+                    arrow.setRotation(180);
                 }else{
 
-                    ViewHelper.setRotation(arrow,0);
+                    arrow.setRotation(0);
                 }
 
 
@@ -170,7 +168,7 @@ public class ERVGridFragment extends Fragment {
             public void onAnimationUpdate(ValueAnimator animation) {
 
 
-                ViewHelper.setRotation(view,180 * (float) (animation.getAnimatedValue()));
+                view.setRotation(180 * (float) (animation.getAnimatedValue()));
 
 
                 view.postInvalidate();
@@ -190,7 +188,7 @@ public class ERVGridFragment extends Fragment {
 
 
 
-                ViewHelper.setRotation(view,180 * (float) (animation.getAnimatedValue()));
+                view.setRotation(180 * (float) (animation.getAnimatedValue()));
 
                 view.postInvalidate();
             }

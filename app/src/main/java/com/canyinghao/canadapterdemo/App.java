@@ -1,11 +1,10 @@
 package com.canyinghao.canadapterdemo;
 
 import android.app.Application;
-import android.support.multidex.MultiDexApplication;
 import android.widget.Toast;
 
 
-public class App extends MultiDexApplication {
+public class App extends Application {
     private static App sInstance;
 
 

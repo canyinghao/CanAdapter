@@ -1,6 +1,7 @@
 package com.canyinghao.canadapterdemo.ui;
 
 
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +14,6 @@ import com.canyinghao.canadapter.CanErvAdapter;
 import com.canyinghao.canadapter.CanHolderHelper;
 import com.canyinghao.canadapterdemo.R;
 import com.canyinghao.canadapterdemo.model.MainBean;
-import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.view.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,10 +78,10 @@ public class ERVGridFragment extends Fragment {
 
                 if (model.isExp){
 
-                    ViewHelper.setRotation(arrow,180);
+                    arrow.setRotation(180);
                 }else{
 
-                    ViewHelper.setRotation(arrow,0);
+                    arrow.setRotation(0);
                 }
 
 
@@ -169,7 +168,7 @@ public class ERVGridFragment extends Fragment {
             public void onAnimationUpdate(ValueAnimator animation) {
 
 
-                ViewHelper.setRotation(view,180 * (float) (animation.getAnimatedValue()));
+                view.setRotation(180 * (float) (animation.getAnimatedValue()));
 
 
                 view.postInvalidate();
@@ -189,7 +188,7 @@ public class ERVGridFragment extends Fragment {
 
 
 
-                ViewHelper.setRotation(view,180 * (float) (animation.getAnimatedValue()));
+                view.setRotation(180 * (float) (animation.getAnimatedValue()));
 
                 view.postInvalidate();
             }
